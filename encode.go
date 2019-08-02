@@ -205,7 +205,11 @@ func floatAddDecimal(fstr string) string {
 }
 
 func (enc *Encoder) writeQuoted(s string) {
-	enc.wf("\"%s\"", quotedReplacer.Replace(s))
+	if strings.Contains(s, "\n") {
+		enc.wf("\"\"\"\n%s\"\"\"", s)
+	} else {
+		enc.wf("\"%s\"", quotedReplacer.Replace(s))
+	}
 }
 
 func (enc *Encoder) eArrayOrSliceElement(rv reflect.Value) {

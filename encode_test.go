@@ -361,6 +361,16 @@ ArrayOfMixedSlices = [[1, 2], ["a", "b"]]
 			},
 			wantOutput: "[map]\n  zero = 5\n\n  [[map.arr]]\n    friend = 5\n",
 		},
+		"multi-line string": {
+			input: map[string]interface{}{
+				"map": "qwerty\nasd\n",
+			},
+			wantOutput: `map = """
+qwerty
+asd
+"""
+`,
+		},
 		"(error) top-level slice": {
 			input:     []struct{ Int int }{{1}, {2}, {3}},
 			wantError: errNoKey,
@@ -391,6 +401,18 @@ ArrayOfMixedSlices = [[1, 2], ["a", "b"]]
 	for label, test := range tests {
 		encodeExpected(t, label, test.input, test.wantOutput, test.wantError)
 	}
+}
+
+func TestName(t *testing.T) {
+	buf := bytes.NewBuffer(nil)
+	NewEncoder(buf).Encode( map[string]interface{}{
+		"map": map[string]interface{}{
+			"zzz": "qwerty\nasd\n",
+		},
+	})
+
+	fmt.Printf(buf.String())
+
 }
 
 func TestEncodeNestedTableArrays(t *testing.T) {
