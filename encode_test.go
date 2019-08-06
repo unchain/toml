@@ -371,6 +371,18 @@ asd
 """
 `,
 		},
+		"multiline string 2": {
+			input: map[string]interface{} {
+				"Text": "\"Roses\" are red\n\"Violets\" are blue",
+			},
+			wantOutput: "Text = \"\"\"\n\\\"Roses\\\" are red\n\\\"Violets\\\" are blue\"\"\"\n",
+		},
+		//"multiline raw string": {
+		//	input: struct {
+		//		Text string `modifier:"multiline_rawstring"`
+		//	}{"\"Roses\" are red\n\"Violets\" are blue"},
+		//	wantOutput: "Text = '''\n\"Roses\" are red\n\"Violets\" are blue'''\n",
+		//},
 		"(error) top-level slice": {
 			input:     []struct{ Int int }{{1}, {2}, {3}},
 			wantError: errNoKey,
